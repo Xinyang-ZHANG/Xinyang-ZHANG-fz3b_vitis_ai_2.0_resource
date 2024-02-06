@@ -1,0 +1,8 @@
+{
+    "lib": "libvart-dpu-runner.so",
+    "filename": "resnet50_tf.xmodel",
+    "kernel": [
+        "subgraph_resnet_v1_50\/block1\/unit_1\/bottleneck_v1\/add"
+    ],
+    "target": "DPUCZDX8G_ISA0_B1600_MAX"
+}

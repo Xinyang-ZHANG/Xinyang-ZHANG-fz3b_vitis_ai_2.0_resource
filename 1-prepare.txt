@@ -1,0 +1,50 @@
+sudo rm /var/lib/dpkg/lock-frontend
+sudo rm /var/lib/dpkg/lock
+sudo rm /var/cache/apt/archives/lock
+for :
+E: Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?
+
+
+DOCKER:
+sudo apt-get update
+sudo apt-get remove docker docker-engine docker.io
+sudo apt install docker.io
+docker --version
+sudo gpasswd -a zxy docker
+newgrp docker
+
+cd Vitis-ai-2.0
+docker pull xilinx/vitis-ai-cpu:2.0.0  
+OR:
+cd setup/docker
+./docker_build_cpu.sh
+
+./docker_run.sh xilinx/vitis-ai-cpu:2.0.0
+
+docker other:
+docker system df
+docker system prune -a
+
+
+CLASH (download clash for windows (linux)):
+./clash/cfw
+
+
+PETALINUX:
+sudo apt-get install iproute2 gawk python3 python build-essential gcc git make net-tools libncurses5-dev tftpd zlib1g-dev libssl-dev flex bison libselinux1 gnupg wget git-core diffstat chrpath socat xterm autoconf libtool tar unzip texinfo zlib1g-dev gcc-multilib automake zlib1g:i386 screen pax gzip cpio python3-pip python3-pexpect xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev pylint (--fix-missing)
+
+sudo chmod 777 /opt/
+sudo chmod 777 /opt/petalinux/
+sudo chmod 777 /opt/petalinux/2021.2/
+sudo chown zxy /opt/
+sudo chown zxy /opt/petalinux/
+sudo chown zxy /opt/petalinux/2021.2/
+sudo chgrp zxy /opt/
+sudo chgrp zxy /opt/petalinux/
+sudo chgrp zxy /opt/petalinux/2021.2/
+
+./petalinux-v2021.2-final-installer.run -d /opt/petalinux/2021.2/
+
+
+

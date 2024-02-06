@@ -1,0 +1,20 @@
+verilog xil_defaultlib --include "/opt/Xilinx/2021.2/Vivado/2021.2/data/xilinx_vip/include" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/ec67/hdl" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/2fd3/hdl" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/62b6" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/6dbc/inc" \
+"../../../bd/design_1/ip/design_1_zynq_ultra_ps_e_0_0/sim/design_1_zynq_ultra_ps_e_0_0_vip_wrapper.v" \
+"../../../bd/design_1/ip/design_1_clk_wiz_0_0/design_1_clk_wiz_0_0_clk_wiz.v" \
+"../../../bd/design_1/ip/design_1_clk_wiz_0_0/design_1_clk_wiz_0_0.v" \
+"../../../bd/design_1/sim/design_1.v" \
+"../../../bd/design_1/ip/design_1_dpuczdx8g_0_0/xci/sfm/fp_exp/sim/fp_exp.v" \
+"../../../bd/design_1/ip/design_1_dpuczdx8g_0_0/xci/sfm/fp_convert/sim/fp_convert.v" \
+"../../../bd/design_1/ip/design_1_dpuczdx8g_0_0/xci/sfm/fp_div/sim/fp_div.v" \
+"../../../bd/design_1/ip/design_1_dpuczdx8g_0_0/xci/sfm/fp_acc/sim/fp_acc.v" \
+"../../../bd/design_1/ip/design_1_dpuczdx8g_0_0/xci/sfm/fp_add/sim/fp_add.v" \
+
+sv xil_defaultlib --include "/opt/Xilinx/2021.2/Vivado/2021.2/data/xilinx_vip/include" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/ec67/hdl" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/2fd3/hdl" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/62b6" --include "../../../../fz3b_vivado_prj.gen/sources_1/bd/design_1/ipshared/6dbc/inc" \
+"../../../bd/design_1/ipshared/6dbc/hdl/DPUCZDX8G_v3_4_0_vl_dpu.sv" \
+"../../../bd/design_1/ipshared/6dbc/hdl/DPUCZDX8G_v3_4_0_vl_sfm.sv" \
+"../../../bd/design_1/ipshared/6dbc/hdl/DPUCZDX8G_v3_4_0_vl_top.sv" \
+"../../../bd/design_1/ip/design_1_dpuczdx8g_0_0/sim/design_1_dpuczdx8g_0_0.sv" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

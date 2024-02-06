@@ -1,0 +1,33 @@
+arch.json location
+<path>/FZ3B/fz3b_vivado_prj/fz3b_vivado_prj.gen/sources_1/bd/design_1/ip/design_1_dpuczdx8g_0_0
+
+
+GENERATE VART EXECUTABLE:
+cd ./setup/mpsoc/VART/
+./host_cross_compiler_setup.sh
+source ~/petalinux_sdk_2021.2/environment-setup-cortexa72-cortexa53-xilinx-linux
+cd ../../../demo/VART/
+cd resnet50
+bash -x build.sh 
+copy resnet50 and words.txt into sd card
+
+
+download models:
+#cd ./models/AI-Model-Zoo
+#python3 downloader.py  
+#download: vgg_16_tf-zcu102_zcu104_kv260-r2.0.0.tar.gz
+cd /home/zxy/Downloads/Vitis-AI-1.2.1/AI-Model-Zoo
+./get_model.sh 
+Use quantized model instead of frozen model to start!!!!!! If you don't have dataset
+
+
+GENERATE VART XMODEL:
+./docker_run.sh xilinx/vitis-ai-cpu:2.0.0
+conda activate vitis-ai-tensorflow
+cd fz3b_vitis_ai
+
+quantized(jump):
+vai_q_tensorflow quantize  --input_frozen_graph ./float/resnet_v1_50_inference.pb  --input_fn input_fn.calib_input  --output_dir quantize_model  --input_nodes input  --output_nodes resnet_v1_50/predictions/Reshape_1  --input_shapes ?,224,224,3  --calib_iter 100
+
+compile:
+vai_c_tensorflow --frozen_pb quantized/quantize_eval_model.pb --arch quantized/arch.json --output_dir compile_model --net_name resnet50_tf

@@ -1,0 +1,80 @@
+
+source /opt/petalinux/2021.2/settings.sh
+
+petalinux-create -t project -n fz3b_plnx_dpu_prj --template zynqMP
+cd fz3b_plnx_dpu_prj/
+
+#maxmize your terminal window: https://blog.csdn.net/persistvonyao/article/details/13844671
+#copy yoor .xsa into project
+petalinux-config –get-hw-description
+
+#copy this to meta-user/conf/user-rootfsconfig
+CONFIG_xrt
+CONFIG_dnf
+CONFIG_e2fsprogs-resize2fs
+CONFIG_parted
+CONFIG_resize-part
+CONFIG_packagegroup-petalinux-vitisai
+CONFIG_packagegroup-petalinux-self-hosted
+CONFIG_cmake
+CONFIG_packagegroup-petalinux-vitisai-dev
+CONFIG_xrt-dev
+CONFIG_opencl-clhpp-dev
+CONFIG_opencl-headers-dev
+CONFIG_packagegroup-petalinux-opencv
+CONFIG_packagegroup-petalinux-opencv-dev
+CONFIG_mesa-megadriver
+CONFIG_packagegroup-petalinux-x11
+CONFIG_packagegroup-petalinux-v4lutils
+CONFIG_packagegroup-petalinux-matchbox
+CONFIG_resnet50
+CONFIG_dpu
+CONFIG_vitis-ai-library
+CONFIG_vitis-ai-library-dev
+CONFIG_vitis-ai-library-dbg
+
+petalinux-config -c rootfs
+#add the configs aboves
+#remove packagegroup-core-ssh-dropbear in misc
+#add ssh-server-openssh
+#remove ssh-server-dropbear
+
+#copy recipes-modules, recipe-tools, recipe-apps/resnet50 from zcu102.bsp to meta-user
+#change app.tar.gz with your resnet50.xmodel, add my_crosscompile folder, repackage app.tar.gz
+#add this into meta-user/recipes-bsp/device-tree/files/system-user.dtsi
+/include/ "system-conf.dtsi"
+/ {
+
+	chosen {
+		bootargs = "console=ttyPS0,115200 earlyprintk root=/dev/mmcblk1p2 rw rootwait clk_ignore_unused cpuidle.off=1";
+		stdout-path = "serial0:115200n8";
+	};
+};
+
+&sdhci1 {
+	status = "okay";
+	max-frequency = <50000000>;
+	no-1-8-v;
+	disable-wp;
+};
+
+&uart0
+{
+	status = "disabled";
+};
+
+
+petalinux-build -x mrproper
+petalinux-build
+
+cd images/linux
+petalinux-package --boot --fsbl zynqmp_fsbl.elf --u-boot u-boot.elf --pmufw pmufw.elf --fpga system.bit
+
+dtc -I dtb -O dts -o system.dts system.dtb
+sudo umount /dev/sdb2
+sudo mkfs.ext4 /dev/sdb2
+sudo mount /dev/sdb2 /media/root/
+sudo tar -xzvf ./rootfs.tar.gz -C /media/root/
+
+petalinux-package --bsp -p fz3b_plnx_prj --output fz3b_plnx_prj.bsp
+
